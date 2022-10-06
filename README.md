@@ -8,9 +8,17 @@ Codes for our deep learning models are written in Python and implemented with Py
 
 ## Masked Language Modelling
 
-The [CXR_BioClinicalBERT_MLM](https://huggingface.co/ICLbioengNLP/CXR_BioClinicalBERT_MLM) was fine-tuned on a Masked Language Modelling (MLM) task. The model is trained to predict text by attempting to recover the whole word, such that we can validate model’s understanding of radiological contents. Perplexity, defined as the exponential of the cross-entropy loss, was used to intrinsically evaluate the model during training. 
+The [CXR_BioClinicalBERT_MLM](https://huggingface.co/ICLbioengNLP/CXR_BioClinicalBERT_MLM) was fine-tuned on a Masked Language Modelling (MLM) task. The model is trained to predict text by attempting to recover the whole word, such that we can validate model’s understanding of radiological contents. The model achieved a perplexity score of 1.0710 after 10 epochs of training. 
+
+The contextualized word embeddings output were converted into sentence embeddings by a mean pooling operation. Sentence embeddings of different radiological reports were semantically compared using the cosine similarity calculation. Examples of the results can be found in the paper and `ReportSimilarity_sections.ipynb`. 
 
 ## Text Classification 
 
-## The MIMIC-CXR Dataset 
+The [CXR_BioClinicalBERT_Class](https://huggingface.co/ICLbioengNLP/CXR_BioClinicalBERT_Class) was fine-tuned from the `CXR_BioClinicalBERT_MLM` model on a classification task, such that it can perform multi-label text classification across 13 different cardiopulmonary conditions. Classification evaluation can be found in the paper and `CXR_BioClinicalBERT_Class.ipynb`. Prediction examples can be found in `TC_prediction.ipynb`. 
+
+## Dataset and Pre-processing
+
+The [MIMIC-CXR database (v2.0.0)](https://physionet.org/content/mimic-cxr/2.0.0/) was used for training, which is the largest publicly available Chest X-ray dataset containing 377,110 radiographs and 225,606 associated radiology reports in free-text format. 
+
+Only simple text pre-processing including punctuation and number removal was applied. Typical steps including stemming, lemmatization and stopword removal were avoided in training with highly context-dependent transformer models like BERT. 
 
